@@ -9,6 +9,7 @@ export class ReviewsController {
 	@Get('/')
 	async getReviews(@Query() query: ReviewsQuery): Promise<ReviewsResponse> {
 		const reviews = await this.reviewsService.getReviews(
+			// Needs request level valiation
 			Number(query.page),
 			Number(query.limit),
 			query.sort,

@@ -81,14 +81,46 @@ describe('ReviewsController', () => {
 	});
 
 	describe('getReviews()', () => {
-		it.todo('should fetch all reviews');
+		it('should fetch first page of reviews', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=desc');
+			expect(response.status).toBe(200);
+			expect(response.body.reviews).toHaveLength(3);
+		});
 
-		it.todo('should fetch reviews in descending order by date');
+		it('should fetch reviews in asc order by createdOn', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=asc');
+			expect(response.status).toBe(200);
+			expect(new Date(response.body.reviews[0].createdOn).getTime()).toBeLessThan(
+				new Date(response.body.reviews[2].createdOn).getTime(),
+			);
+			expect(new Date(response.body.reviews[2].createdOn).getTime()).toBeGreaterThan(
+				new Date(response.body.reviews[1].createdOn).getTime(),
+			);
+		});
 
-		it.todo('should include user data with review');
+		it('should fetch reviews in desc order by createdOn', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=desc');
+			expect(response.status).toBe(200);
+			expect(new Date(response.body.reviews[2].createdOn).getTime()).toBeLessThan(
+				new Date(response.body.reviews[0].createdOn).getTime(),
+			);
+			expect(new Date(response.body.reviews[1].createdOn).getTime()).toBeGreaterThan(
+				new Date(response.body.reviews[2].createdOn).getTime(),
+			);
+		});
 
-		it.todo('should include company data with review');
+		it('should join company onto review', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=desc');
+			expect(response.status).toBe(200);
+			expect(response.body.reviews[0].company.id).toBeDefined();
+			expect(response.body.reviews[1].company.id).toBeDefined();
+		});
 
-		// Feel free to add any additional tests you think are necessary
+		it('should join user onto review', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=desc');
+			expect(response.status).toBe(200);
+			expect(response.body.reviews[0].user.id).toBeDefined();
+			expect(response.body.reviews[1].user.id).toBeDefined();
+		});
 	});
 });

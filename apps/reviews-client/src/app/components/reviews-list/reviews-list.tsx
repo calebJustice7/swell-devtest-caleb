@@ -1,5 +1,5 @@
 import { useReviewsQuery } from '../../../queries/reviews/reviews';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { ReviewCard } from '../review-card/review-card';
 import { ReviewCardSkeleton } from '../review-card-skeleton/review-card-skeleton';
@@ -26,14 +26,28 @@ export function ReviewsList(props: ReviewsListProps) {
 	return (
 		<Box sx={{ pt: 5 }}>
 			{query.isLoading && <ReviewCardSkeleton />}
+			{!query.isLoading && reviews.length === 0 && <Typography>There are no reviews</Typography>}
 
-			{query.isSuccess && <ReviewListPagination page={page} pages={pages} onPageChange={setPage} />}
+			<ReviewListPagination
+				isFetching={query.isLoading || query.isFetching}
+				page={page}
+				pages={pages}
+				onPageChange={setPage}
+				hide={!query.isSuccess}
+			/>
+
 			<Grid container spacing={2}>
 				{reviews.map((review) => (
 					<ReviewCard key={review.id} data={review} />
 				))}
 			</Grid>
-			{query.isSuccess && <ReviewListPagination page={page} pages={pages} onPageChange={setPage} />}
+			<ReviewListPagination
+				isFetching={query.isLoading || query.isFetching}
+				page={page}
+				pages={pages}
+				onPageChange={setPage}
+				hide={!query.isSuccess}
+			/>
 		</Box>
 	);
 }
