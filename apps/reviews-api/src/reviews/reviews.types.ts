@@ -9,6 +9,12 @@ export interface ReviewExt extends Review {
 	user: User;
 }
 
-export interface ReviewsResponse {
+export interface ReviewsResponse extends ReviewsCountResponse {
 	reviews: ReviewExt[];
+}
+
+export interface ReviewsQuery {
+	page: string;
+	limit: string;
+	sort: 'asc' | 'desc';
 }
