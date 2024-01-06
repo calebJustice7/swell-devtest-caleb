@@ -81,7 +81,7 @@ describe('ReviewsController', () => {
 	});
 
 	describe('getReviews()', () => {
-		it('should fetch first page of reviews', async () => {
+		it('should fetch all 3 reviews', async () => {
 			const response = await request(app.getHttpServer()).get('/reviews?limit=10&page=1&sort=desc');
 			expect(response.status).toBe(200);
 			expect(response.body.reviews).toHaveLength(3);
@@ -121,6 +121,13 @@ describe('ReviewsController', () => {
 			expect(response.status).toBe(200);
 			expect(response.body.reviews[0].user.id).toBeDefined();
 			expect(response.body.reviews[1].user.id).toBeDefined();
+		});
+
+		it('should only fetch the last review', async () => {
+			const response = await request(app.getHttpServer()).get('/reviews?limit=1&page=1&sort=desc');
+			expect(response.status).toBe(200);
+			expect(response.body.reviews[0]).toBeDefined();
+			expect(response.body.reviews[0].id).toEqual('3');
 		});
 	});
 });
