@@ -23,7 +23,12 @@ export function ReviewCard({ data }: ReviewCardProps) {
 					<Typography color="white" sx={{ fontWeight: 600 }}>
 						{data.company.name}
 					</Typography>
-					<Typography sx={{ fontSize: 12, fontWeight: 300, mt: 1 }} color="#dadfea" gutterBottom>
+					<Typography
+						data-testid="review-text"
+						sx={{ fontSize: 12, fontWeight: 300, mt: 1 }}
+						color="#dadfea"
+						gutterBottom
+					>
 						{data.reviewText}
 					</Typography>
 					{data.reviewText && <Divider sx={{ my: 1 }} />}

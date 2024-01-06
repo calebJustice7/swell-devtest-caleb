@@ -26,7 +26,7 @@ export function ReviewsList(props: ReviewsListProps) {
 	return (
 		<Box sx={{ pt: 5 }}>
 			{query.isLoading && <ReviewCardSkeleton />}
-			{!query.isLoading && reviews.length === 0 && <Typography>There are no reviews</Typography>}
+			{reviews.length === 0 && <Typography>There are no reviews</Typography>}
 
 			<ReviewListPagination
 				isFetching={query.isLoading || query.isFetching}

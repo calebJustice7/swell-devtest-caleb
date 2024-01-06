@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ReviewCard } from './review-card';
 import ProviderWrapper from '../../../test/providerWrapper';
 import { ReviewExt } from '../../../queries/reviews/reviews-types';
@@ -30,5 +30,23 @@ describe('ReviewCard', () => {
 			</ProviderWrapper>,
 		);
 		expect(baseElement).toBeTruthy();
+	});
+
+	it('should display nothing for the review text', async () => {
+		render(
+			<ProviderWrapper hasReviews={true}>
+				<ReviewCard data={review} />
+			</ProviderWrapper>,
+		);
+		expect(await screen.findByTestId('review-text')).toBeInTheDocument();
+	});
+
+	it('should have a review text', async () => {
+		render(
+			<ProviderWrapper hasReviews={true}>
+				<ReviewCard data={{ ...review, reviewText: 'Text' }} />
+			</ProviderWrapper>,
+		);
+		expect(await screen.findByText('Text')).toBeInTheDocument();
 	});
 });
