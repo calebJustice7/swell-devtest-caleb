@@ -9,10 +9,10 @@ export class ReviewsController {
 	@Get('/')
 	async getReviews(@Query() query: ReviewsQuery): Promise<ReviewsResponse> {
 		const reviews = await this.reviewsService.getReviews(
-			// Needs request level valiation
-			Number(query.page),
-			Number(query.limit),
-			query.sort,
+			// Needs request level valiation, this will do for now
+			Number(query.page || 1),
+			Number(query.limit || 10),
+			query.sort || 'asc',
 		);
 		const reviewsCount = await this.reviewsService.getReviewsCount();
 		return { reviews, reviewsCount };

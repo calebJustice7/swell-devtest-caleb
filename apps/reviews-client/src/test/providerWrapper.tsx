@@ -6,7 +6,7 @@ interface ProviderWrapperProps {
 }
 
 const Wrapper = ({ children, hasReviews }: ProviderWrapperProps) => {
-	useQuery(['reviews'], {
+	useQuery(['reviews', 1, 'desc'], {
 		queryFn: () => {
 			return {
 				reviewCount: hasReviews ? 1 : 0,
