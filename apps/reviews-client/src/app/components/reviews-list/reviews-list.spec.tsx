@@ -1,17 +1,24 @@
 import { render } from '@testing-library/react';
 import ReviewsList from './reviews-list';
+import ProviderWrapper from '../../../test/providerWrapper';
+
+const timeout = () => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(true);
+		}, 1000);
+	});
+};
 
 describe('ReviewsList', () => {
-	it('should render successfully', () => {
-		const { baseElement } = render(<ReviewsList />);
+	it('should render successfully', async () => {
+		await timeout();
+
+		const { baseElement } = render(
+			<ProviderWrapper hasReviews={true}>
+				<ReviewsList />
+			</ProviderWrapper>,
+		);
 		expect(baseElement).toBeTruthy();
 	});
-
-	it.todo('should render list of reviews');
-
-	it.todo('should display message if no reviews are found');
-
-	it.todo('should display the review text if provided');
-
-	// Feel free to add any additional tests you think are necessary
 });
