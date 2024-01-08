@@ -1,5 +1,6 @@
 import { useReviewsQuery } from '../../../queries/reviews/reviews';
 import {
+	Alert,
 	Box,
 	FormControl,
 	Grid,
@@ -39,7 +40,10 @@ export function ReviewsList(props: ReviewsListProps) {
 	return (
 		<Box sx={{ pt: 5 }}>
 			{query.isLoading && <ReviewCardSkeleton />}
-			{reviews.length === 0 && <Typography>There are no reviews</Typography>}
+			{!query.isLoading && reviews.length === 0 && <Typography>There are no reviews</Typography>}
+			{query.isError && (
+				<Alert severity="error">An unknown error occured, please refresh and try again</Alert>
+			)}
 
 			<FormControl fullWidth>
 				<InputLabel id="sort-select">Sort Order</InputLabel>
